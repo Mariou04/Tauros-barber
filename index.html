@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Tauro's Barbería</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -296,7 +297,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 28px 36px 20px;
+      padding: 16px 24px 12px;
       border-bottom: 1px solid #1e1e1e;
     }
 
@@ -337,20 +338,20 @@
     /* Body del modal - dos columnas */
     .modal-body {
       display: grid;
-      grid-template-columns: 260px 1fr;
-      min-height: 480px;
+      grid-template-columns: 210px 1fr;
+      min-height: 340px;
     }
 
     /* Columna izquierda - datos */
     .modal-left {
       border-right: 1px solid #1e1e1e;
-      padding: 28px 28px;
+      padding: 16px 20px;
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      gap: 10px;
     }
 
-    .form-group { display: flex; flex-direction: column; gap: 7px; }
+    .form-group { display: flex; flex-direction: column; gap: 4px; }
 
     .form-group label {
       font-size: 0.63rem;
@@ -366,8 +367,8 @@
       background: #181818;
       border: 1px solid #242424;
       color: var(--white);
-      padding: 11px 14px;
-      font-size: 0.82rem;
+      padding: 8px 12px;
+      font-size: 0.78rem;
       font-family: 'Montserrat', sans-serif;
       outline: none;
       transition: border-color 0.2s;
@@ -380,7 +381,7 @@
     .modal-left-sep {
       height: 1px;
       background: #1e1e1e;
-      margin: 2px 0;
+      margin: 0;
     }
 
     /* Columna derecha - agenda */
@@ -391,7 +392,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 20px 28px 16px;
+      padding: 10px 20px 8px;
       border-bottom: 1px solid #1e1e1e;
     }
 
@@ -409,7 +410,7 @@
 
     .week-label {
       font-family: 'Playfair Display', serif;
-      font-size: 0.95rem;
+      font-size: 0.85rem;
       color: var(--white);
       letter-spacing: 0.05em;
       font-weight: 700;
@@ -428,7 +429,7 @@
 
     .wg-day-header {
       text-align: center;
-      padding: 12px 4px 10px;
+      padding: 6px 2px 4px;
       border-right: 1px solid #1a1a1a;
       border-bottom: 1px solid #1a1a1a;
       cursor: pointer;
@@ -441,17 +442,17 @@
     .wg-day-header.today-day .wg-day-num { color: var(--gold); }
 
     .wg-day-name {
-      font-size: 0.58rem;
+      font-size: 0.5rem;
       letter-spacing: 0.15em;
       text-transform: uppercase;
       color: #555;
       font-weight: 600;
       display: block;
-      margin-bottom: 4px;
+      margin-bottom: 1px;
     }
     .wg-day-num {
       font-family: 'Playfair Display', serif;
-      font-size: 1.1rem;
+      font-size: 0.9rem;
       color: var(--white);
       font-weight: 700;
       display: block;
@@ -459,14 +460,14 @@
 
     /* Filas de horas */
     .wg-time-label {
-      font-size: 0.55rem;
+      font-size: 0.5rem;
       color: #444;
       text-align: right;
-      padding: 0 8px 0 0;
+      padding: 0 6px 0 0;
       display: flex;
       align-items: flex-start;
       justify-content: flex-end;
-      padding-top: 6px;
+      padding-top: 3px;
       border-right: 1px solid #1a1a1a;
       border-bottom: 1px solid #111;
       letter-spacing: 0.03em;
@@ -476,45 +477,63 @@
     .wg-cell {
       border-right: 1px solid #111;
       border-bottom: 1px solid #111;
-      height: 44px;
-      cursor: pointer;
-      transition: background 0.12s;
+      height: 34px;
+      transition: all 0.12s;
       position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .wg-cell:last-child { border-right: none; }
-    .wg-cell:hover:not(.cell-past):not(.cell-disabled) { background: #1c1800; }
+    .wg-cell:not(.cell-past):not(.cell-disabled) {
+      cursor: pointer;
+      background: #181818;
+    }
+    .wg-cell:not(.cell-past):not(.cell-disabled):hover {
+      background: #222;
+      box-shadow: inset 0 0 0 1px var(--gold);
+    }
     .wg-cell.cell-selected {
       background: var(--gold) !important;
+      box-shadow: none !important;
+    }
+    .wg-cell.cell-highlight:not(.cell-past):not(.cell-disabled) {
+      background: #252525;
+      box-shadow: inset 0 0 0 1px rgba(201,168,76,0.25);
+    }
+    .wg-day-header.highlight-head {
+      background: #1a1600;
+      border-bottom: 1px solid var(--gold);
     }
     .wg-cell.cell-past { cursor: not-allowed; background: #0c0c0c; }
     .wg-cell.cell-disabled { opacity: 0.2; cursor: not-allowed; }
 
     .cell-dot {
-      position: absolute;
-      inset: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.65rem;
-      font-weight: 700;
-      color: var(--black);
-      opacity: 0;
+      font-size: 0.6rem;
+      font-weight: 600;
+      color: #ccc;
       letter-spacing: 0.05em;
     }
-    .wg-cell.cell-selected .cell-dot { opacity: 1; }
+    .wg-cell.cell-selected .cell-dot {
+      color: var(--black);
+      font-weight: 700;
+    }
 
     /* Footer modal */
     .modal-footer {
-      padding: 20px 28px 28px;
+      padding: 10px 20px 14px;
       border-top: 1px solid #1e1e1e;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 20px;
+      gap: 12px;
     }
 
     .selection-summary {
-      font-size: 0.75rem;
+      font-size: 0.65rem;
       color: #555;
       letter-spacing: 0.08em;
     }
@@ -524,8 +543,8 @@
       background: var(--white);
       color: var(--black);
       border: none;
-      padding: 14px 40px;
-      font-size: 0.72rem;
+      padding: 10px 28px;
+      font-size: 0.65rem;
       letter-spacing: 0.22em;
       text-transform: uppercase;
       font-weight: 700;
@@ -749,9 +768,9 @@
     }
 
     .footer-links a {
-      color: #555;
+      color: var(--white);
       text-decoration: none;
-      font-size: 0.72rem;
+      font-size: 0.85rem;
       letter-spacing: 0.18em;
       text-transform: uppercase;
       transition: color 0.2s;
@@ -767,7 +786,7 @@
       padding: 12px 24px;
       text-decoration: none;
       color: var(--white);
-      font-size: 0.72rem;
+      font-size: 0.85rem;
       letter-spacing: 0.15em;
       text-transform: uppercase;
       font-weight: 600;
@@ -778,8 +797,8 @@
     .footer-copy {
       width: 100%;
       text-align: center;
-      font-size: 0.65rem;
-      color: #333;
+      font-size: 0.75rem;
+      color: var(--white);
       letter-spacing: 0.15em;
       margin-top: 16px;
       text-transform: uppercase;
@@ -917,13 +936,14 @@
   <footer>
     <div>
       <p class="footer-brand">TAURO<span>'S</span> BARBERÍA</p>
-      <p style="font-size:0.68rem;color:#444;letter-spacing:0.12em;margin-top:6px;text-transform:uppercase;">Cl. 10 #23-34, Bucaramanga, Santander</p>
+      <p style="font-size:0.82rem;color:#ccc;letter-spacing:0.12em;margin-top:6px;text-transform:uppercase;">Cl. 10 #23-34, Bucaramanga, Santander</p>
     </div>
 
     <ul class="footer-links">
       <li><a href="#inicio">Inicio</a></li>
       <li><a href="#barberos">Barberos</a></li>
       <li><a href="#ubicacion">Ubicación</a></li>
+      <li><a href="admin.html" style="opacity:0.4;font-size:0.65rem">Admin</a></li>
     </ul>
 
     <a href="https://api.whatsapp.com/send/?phone=573159780853&text&type=phone_number&app_absent=0" target="_blank" class="footer-wa">
@@ -959,7 +979,7 @@
             </div>
             <div class="form-group">
               <label>Teléfono</label>
-              <input type="tel" id="clientPhone" placeholder="3XX XXX XXXX"/>
+              <input type="tel" id="clientPhone" inputmode="numeric" pattern="[0-9]+" placeholder="3XX XXX XXXX" oninput="this.value=this.value.replace(/\D/g,'')"/>
             </div>
             <div class="modal-left-sep"></div>
             <div class="form-group">
@@ -1048,6 +1068,11 @@
     const MONTHS_ES   = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
     const MONTHS_FULL = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 
+    // ── SUPABASE ──
+    const SUPABASE_URL = 'https://mvzpwsvtmxegxsphwfcj.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_0Op1mZxcjbTfwzGylMTBOw_AZILx-MI';
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
     // Slots en formato 24h interno, 1 hora por turno
     // Lun–Sáb: 9–19 (último turno 7pm, termina 8pm)
     // Dom: 9–14 (último turno 2pm, termina 3pm)
@@ -1068,6 +1093,7 @@
     let selectedBarber = '';
     let selectedCell   = null; // { date: Date, hour: Number }
     let weekOffset     = 0;
+    let highlightDate  = null; // fecha del día resaltado como guía
 
     function getWeekStart(offset) {
       const today = new Date();
@@ -1080,10 +1106,11 @@
     }
 
     // ── MODAL ──
-    function openModal(barber) {
+    async function openModal(barber) {
       selectedBarber = barber;
       selectedCell   = null;
       weekOffset     = 0;
+      highlightDate  = null;
       document.getElementById('barberName').textContent = barber;
       document.getElementById('bookingForm').style.display = '';
       document.getElementById('bookConfirm').classList.remove('show');
@@ -1091,7 +1118,7 @@
       document.getElementById('clientPhone').value = '';
       document.getElementById('service').value     = '';
       updateSummary();
-      renderWeek();
+      await renderWeek();
       document.getElementById('modalBackdrop').classList.add('open');
       document.body.style.overflow = 'hidden';
     }
@@ -1105,20 +1132,32 @@
       if (e.target === document.getElementById('modalBackdrop')) closeModal();
     }
 
-    function prevWeek() {
-      // No permitir ir antes de la semana actual
-      if (weekOffset > 0) { weekOffset--; renderWeek(); }
+    async function prevWeek() {
+      if (weekOffset > 0) { weekOffset--; highlightDate = null; await renderWeek(); }
     }
-    function nextWeek() { weekOffset++; renderWeek(); }
+    async function nextWeek() { weekOffset++; highlightDate = null; await renderWeek(); }
 
     // ── RENDER SEMANAL ──
-    function renderWeek() {
+    async function renderWeek() {
       const weekStart = getWeekStart(weekOffset);
       const weekEnd   = new Date(weekStart);
       weekEnd.setDate(weekStart.getDate() + 6);
 
       document.getElementById('weekLabel').textContent =
         `${weekStart.getDate()} ${MONTHS_ES[weekStart.getMonth()]} – ${weekEnd.getDate()} ${MONTHS_ES[weekEnd.getMonth()]} ${weekEnd.getFullYear()}`;
+
+      // Consultar citas existentes en la semana
+      const { data: existing } = await sb
+        .from('citas')
+        .select('fecha, hora_inicio')
+        .eq('barbero', selectedBarber)
+        .gte('fecha', weekStart.toISOString().split('T')[0])
+        .lte('fecha', weekEnd.toISOString().split('T')[0]);
+
+      const booked = {};
+      if (existing) {
+        existing.forEach(b => { booked[b.fecha + '|' + b.hora_inicio] = true; });
+      }
 
       const today = new Date(); today.setHours(0,0,0,0);
       const now   = new Date();
@@ -1146,12 +1185,20 @@
         const isPastDay = d < today;
         const isToday   = d.toDateString() === today.toDateString();
         const isSelected = selectedCell && new Date(selectedCell.date).toDateString() === d.toDateString();
+        const isHighlighted = highlightDate === d.toDateString();
         const h = document.createElement('div');
         h.className = 'wg-day-header'
-          + (isPastDay  ? ' past-day'    : '')
-          + (isToday    ? ' today-day'   : '')
-          + (isSelected ? ' active-day'  : '');
+          + (isPastDay     ? ' past-day'     : '')
+          + (isToday       ? ' today-day'    : '')
+          + (isSelected    ? ' active-day'   : '')
+          + (isHighlighted ? ' highlight-head' : '');
         h.innerHTML = `<span class="wg-day-name">${DAYS_SHORT[d.getDay()]}</span><span class="wg-day-num">${d.getDate()}</span>`;
+        h.addEventListener('click', async function() {
+          if (isPastDay) return;
+          const ds = d.toDateString();
+          highlightDate = highlightDate === ds ? null : ds;
+          await renderWeek();
+        });
         grid.appendChild(h);
       });
 
@@ -1178,14 +1225,18 @@
             if (slotTime <= now) isSlotPast = true;
           }
 
+          // Verificar si ya hay una cita agendada
+          const dateKey = d.toISOString().split('T')[0] + '|' + hour;
+          const isBooked = !!booked[dateKey];
+
           const cell = document.createElement('div');
 
           if (!isInSchedule) {
-            // Fuera del horario de la barbería
             cell.className = 'wg-cell cell-disabled';
           } else if (isSlotPast) {
-            // Pasado
             cell.className = 'wg-cell cell-past';
+          } else if (isBooked) {
+            cell.className = 'wg-cell cell-disabled';
           } else {
             // Disponible ✓
             cell.className = 'wg-cell';
@@ -1197,6 +1248,11 @@
               cell.classList.add('cell-selected');
             }
 
+            // ¿Día resaltado como guía?
+            if (highlightDate && d.toDateString() === highlightDate) {
+              cell.classList.add('cell-highlight');
+            }
+
             // CLICK
             const capturedDate = new Date(d);
             const capturedHour = hour;
@@ -1204,7 +1260,7 @@
               selectCell(capturedDate, capturedHour);
             });
 
-            // Dot (hora visible cuando está seleccionado)
+            // Etiqueta de hora visible
             const dot = document.createElement('div');
             dot.className = 'cell-dot';
             dot.textContent = to12h(hour);
@@ -1216,10 +1272,10 @@
       });
     }
 
-    function selectCell(date, hour) {
+    async function selectCell(date, hour) {
       selectedCell = { date: new Date(date), hour };
       updateSummary();
-      renderWeek();
+      await renderWeek();
     }
 
     function updateSummary() {
@@ -1235,10 +1291,12 @@
     }
 
     // ── CONFIRMACIÓN ──
-    function confirmBooking() {
+    async function confirmBooking() {
       const name    = document.getElementById('clientName').value.trim();
+      const phone   = document.getElementById('clientPhone').value.trim();
       const service = document.getElementById('service').value;
       if (!name)         { showToast('Por favor ingresa tu nombre.'); return; }
+      if (!phone)        { showToast('Por favor ingresa tu teléfono.'); return; }
       if (!service)      { showToast('Por favor selecciona un servicio.'); return; }
       if (!selectedCell) { showToast('Selecciona un día y horario en la agenda.'); return; }
 
@@ -1246,7 +1304,23 @@
       const dateStr = `${DAYS_SHORT[d.getDay()]} ${d.getDate()} de ${MONTHS_FULL[d.getMonth()]}`;
       const timeStr = `${to12h(selectedCell.hour)} – ${to12h(selectedCell.hour + 1)}`;
 
-      // Ocultar form, mostrar popup de confirmación
+      // Guardar en Supabase
+      const { error } = await sb.from('citas').insert({
+        nombre: name,
+        telefono: phone,
+        servicio: service,
+        barbero: selectedBarber,
+        fecha: d.toISOString().split('T')[0],
+        hora_inicio: selectedCell.hour,
+        hora_fin: selectedCell.hour + 1
+      });
+
+      if (error) {
+        showToast('Error al agendar: ' + error.message);
+        return;
+      }
+
+      // Mostrar confirmación
       document.getElementById('bookingForm').style.display = 'none';
       document.getElementById('bookConfirm').classList.add('show');
 
