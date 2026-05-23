@@ -115,6 +115,40 @@ h1 span { color: var(--gold); }
 }
 .logout-link:hover { color: var(--gold); }
 
+/* Stats */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  background: #0f0f0f;
+  border: 1px solid #1a1a1a;
+  padding: 16px;
+  text-align: center;
+}
+.stat-card:hover { border-color: #2a2a2a; }
+.stat-card.highlight { border-color: var(--gold); }
+
+.stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: var(--white);
+  line-height: 1.1;
+}
+.stat-card.highlight .stat-num { color: var(--gold); }
+
+.stat-label {
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #555;
+  margin-top: 4px;
+}
+
 /* Lista de citas */
 .citas-list {
   display: flex;
@@ -171,6 +205,10 @@ h1 span { color: var(--gold); }
   font-size: 0.6rem;
   font-weight: 600;
   color: var(--gold);
+}
+.cita-meta .badge.badge-past {
+  border-color: #2a2a2a;
+  color: #555;
 }
 .cita-meta .barbero-label {
   color: var(--gold);
