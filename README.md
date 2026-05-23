@@ -29,9 +29,15 @@ Sitio web profesional para **Tauro's Barbería** — agendamiento de citas en l�
 
 ```
 Tauro's Barbería/
-├── index.html           # Página principal
-├── admin.html           # Panel de administración
-├── README.md            # Este archivo
+├── index.html           # Página principal (solo HTML)
+├── admin.html           # Panel de administración (solo HTML)
+├── README.md            # Documentación
+├── css/
+│   ├── style.css        # Estilos del sitio principal
+│   └── admin.css        # Estilos del panel admin
+├── js/
+│   ├── app.js           # Lógica de agenda + Supabase
+│   └── admin.js         # Lógica del panel admin
 ├── img/
 │   ├── logo.png         # Logo de la barbería
 │   ├── banner.png       # Banner principal

@@ -1,0 +1,207 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root { --black: #0a0a0a; --white: #f5f5f5; --gold: #c9a84c; }
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: 'Montserrat', sans-serif;
+  padding: 32px 20px;
+}
+
+h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  color: var(--white);
+}
+h1 span { color: var(--gold); }
+.sub {
+  color: #555;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin: 4px 0 28px;
+}
+
+/* Login */
+.login-box {
+  max-width: 360px;
+  margin: 60px auto;
+  background: #111;
+  border: 1px solid #222;
+  padding: 36px;
+  text-align: center;
+}
+.login-box h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+.login-box input {
+  width: 100%;
+  background: #181818;
+  border: 1px solid #242424;
+  color: var(--white);
+  padding: 11px 14px;
+  font-size: 0.82rem;
+  font-family: 'Montserrat', sans-serif;
+  outline: none;
+  margin-bottom: 10px;
+  text-align: center;
+}
+.login-box input:focus { border-color: var(--gold); }
+.login-box .error {
+  color: #e74c3c;
+  font-size: 0.75rem;
+  margin-bottom: 10px;
+  display: none;
+}
+.btn {
+  background: var(--white);
+  color: var(--black);
+  border: none;
+  padding: 11px 28px;
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+  transition: background 0.2s;
+  width: 100%;
+}
+.btn:hover { background: var(--gold); color: var(--white); }
+
+/* Dashboard */
+.dashboard { display: none; }
+.dashboard.show { display: block; }
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.total-citas {
+  font-size: 0.9rem;
+  color: #888;
+}
+.total-citas strong { color: var(--white); font-size: 1.3rem; }
+
+.bar-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.btn-sm {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  color: var(--white);
+  padding: 7px 18px;
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+  transition: border-color 0.2s;
+}
+.btn-sm:hover { border-color: var(--gold); }
+.logout-link {
+  color: #555;
+  font-size: 0.6rem;
+  cursor: pointer;
+  text-decoration: underline;
+}
+.logout-link:hover { color: var(--gold); }
+
+/* Lista de citas */
+.citas-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cita-card {
+  background: #0f0f0f;
+  border: 1px solid #1a1a1a;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.cita-card:hover { border-color: #2a2a2a; }
+
+.cita-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.cita-num {
+  font-size: 0.6rem;
+  color: #444;
+  font-weight: 600;
+  min-width: 24px;
+}
+
+.cita-cliente {
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.cita-meta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.cita-meta span {
+  font-size: 0.7rem;
+  color: #888;
+}
+.cita-meta .badge {
+  display: inline-block;
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  padding: 2px 10px;
+  font-size: 0.6rem;
+  font-weight: 600;
+  color: var(--gold);
+}
+.cita-meta .barbero-label {
+  color: var(--gold);
+  font-weight: 600;
+}
+.cita-fecha {
+  font-size: 0.75rem;
+  color: #aaa;
+  font-weight: 500;
+}
+.cita-telefono {
+  font-size: 0.7rem;
+  color: #555;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 50px 20px;
+  color: #444;
+}
+.empty-state p { font-size: 0.85rem; }
+.empty-state .icon { font-size: 2rem; margin-bottom: 10px; display: block; }
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: #555;
+  font-size: 0.8rem;
+}
+
+@media (max-width: 600px) {
+  body { padding: 20px 12px; }
+  .cita-card { flex-direction: column; align-items: flex-start; }
+}
